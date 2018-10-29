@@ -1,0 +1,4 @@
+#In .gitignore
+*.TempPoint.*
+*.RestorePoint.*
+Thumbs.db
