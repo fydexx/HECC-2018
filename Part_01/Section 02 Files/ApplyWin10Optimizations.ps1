@@ -48,25 +48,22 @@ If (!$testPath)
 # Create Logfile
 Write-Output "$ScriptName - Create Logfile" > $logFile
 
-Function Logit($TextBlock1)
+function Logit
 {
-
-    param (
-    [Parameter(Mandatory = $true)]
-    [string]$Message,
-		
-    [Parameter()]
-    [ValidateSet(1, 2, 3)]
-    [string]$LogLevel = 1
-   )
-
-    $TimeGenerated = "$(Get-Date -Format HH:mm:ss).$((Get-Date).Millisecond)+000"
-    $Line = '<![LOG[{0}]LOG]!><time="{1}" date="{2}" component="{3}" context="" type="{4}" thread="" file="">'
-    $LineFormat = $Message, $TimeGenerated, (Get-Date -Format MM-dd-yyyy), "$($MyInvocation.ScriptName | Split-Path -Leaf):$($MyInvocation.ScriptLineNumber)", $LogLevel
-    #$LineFormat = $Message, $TimeGenerated, (Get-Date -Format MM-dd-yyyy), "$($MyInvocation.ScriptName | Split-Path -Leaf)", $LogLevel
-    $Line = $Line -f $LineFormat
-    Add-Content -Value $Line -Path $ScriptLogFilePath
-
+	param
+	(
+		[Parameter(Mandatory = $true)]
+		[string]$Message,
+		[ValidateSet('1', '2', '3')]
+		[string]$LogLevel = '1'
+	)
+	
+	$TimeGenerated = "$(Get-Date -Format HH:mm:ss).$((Get-Date).Millisecond)+000"
+	$Line = '<![LOG[{0}]LOG]!><time="{1}" date="{2}" component="{3}" context="" type="{4}" thread="" file="">'
+	$LineFormat = $Message, $TimeGenerated, (Get-Date -Format MM-dd-yyyy), "$($MyInvocation.ScriptName | Split-Path -Leaf):$($MyInvocation.ScriptLineNumber)", $LogLevel
+	#$LineFormat = $Message, $TimeGenerated, (Get-Date -Format MM-dd-yyyy), "$($MyInvocation.ScriptName | Split-Path -Leaf)", $LogLevel
+	$Line = $Line -f $LineFormat
+	Add-Content -Value $Line -Path $ScriptLogFilePath
 }
 
 # Start Main Code Here
